@@ -67,6 +67,10 @@ npx @marp-team/marp-cli slides/step3-intro.md -o slides/step3-intro.pdf
   おくと会場が落ち着く。2回目以降は名前だけで通ることまで確認させる
 - **Ex4 の worker が動かない**: ほぼ `--settings` のコピペミス（シングルクォート
   の欠落で JSON が壊れる）。手順書のコマンドをそのまま貼り直させる
+- **worker が「This background session hasn't isolated its changes yet」で
+  failed を返す**: 同梱の `.claude/settings.json`（bgIsolation 無効化）が
+  配布物から欠落している。zip の展開範囲に隠しファイルが含まれているか確認する。
+  なお、この設定は**稼働中の worker にも反映される**（再起動不要。実測 2026-08-14）
 - **worker の実装が終わらない**: 2〜5分は正常。Agent View で busy なら待つ。
   10分以上 idle のままなら `claude logs <id>` で状況を見る
 - **片付け忘れ**: 各 Ex の最後に stop + rm を必ず実行させる。残った bg
@@ -80,6 +84,18 @@ npx @marp-team/marp-cli slides/step3-intro.md -o slides/step3-intro.pdf
 - 参加者マシンに他の Claude Code セッションがあると Agent View や ListAgents に
   混ざって見える。「マシン全体が見えるのも学び」として扱う
 
+## ドライラン結果（2026-08-14）
+
+Ex1〜Ex4 をコピー環境で通し確認済み（観測セッションが T3 役をヘッドレス代行）:
+
+- Ex1: 即時返り → 約50秒で完了。分析係は仕込んだテスト空白（0x7F DEL 未テスト）を
+  発見しファイル無変更で報告
+- Ex3: 初回 ref 要求 → ref 再送で配達 → 返信受領（罠が教材どおり再現）
+- Ex4: worker が仕様どおり実装（11 tests OK・未コミット・src と tests のみ変更）、
+  done 通知も正しい形式で到着
+- **未検証のまま残るもの**: 対話 T3 での体験（trust ダイアログ・done 通知の
+  承認プロンプトの見え方）と Agent View の TUI 表示
+
 ## この教材の設計判断
 
 - **zellij 等の多重化ツールを使わない**: 導入障壁をゼロにするため素の
@@ -89,3 +105,9 @@ npx @marp-team/marp-cli slides/step3-intro.md -o slides/step3-intro.pdf
   人間の手に残すことで、Step3 の役割分担を体験の中心に置く
 - **罠（ref 要求・success≠配達・trust 不可視）をあえて踏ませる**: 実運用で
   最初に混乱する3点を、安全な教材の中で先に経験させる
+- **`.claude/settings.json`（bgIsolation 無効化）を同梱する**: bg セッションは
+  既定で git 作業ツリーの直接編集を隔離ガードに止められる（実測 2026-08-14）。
+  教材は「worker の diff を人間がそのまま検証する」体験を優先して無効化した。
+  実運用では worktree 分離が基本形であることを手順書・スライド両方に明記している
+- **配布物自身に `.gitignore` を同梱する**: 無いと参加者の `git add -A` が
+  `__pycache__/*.pyc` を初期コミットに取り込む（ドライランで実際に混入した）

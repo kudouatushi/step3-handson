@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.DS_Store
+
+# worker の成果物。統合判断の対象は src/ と tests/ の diff（reports はコミットしない）
+reports/

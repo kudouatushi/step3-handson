@@ -3,7 +3,7 @@ __pycache__/
 .DS_Store
 
 # ハンズオン実行時に worker が生成する成果物（配布物には含めない）
+# 注: handson/.claude/settings.json は bgIsolation 無効化のため意図的に同梱する
 handson/reports/
-handson/.claude/
 slides/*.html
 slides/*.pdf

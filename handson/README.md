@@ -111,6 +111,12 @@ git add -A
 git commit -m "chore: ハンズオン初期状態"
 ```
 
+> **同梱の `.claude/settings.json` について**: bg セッションが git リポジトリの
+> 作業ツリーを直接編集しようとすると、既定では「まず worktree に隔離せよ」という
+> ガードに止められます。本ハンズオンは「worker の diff を人間がそのまま検証する」
+> 体験のため、同梱の設定（`"worktree": {"bgIsolation": "none"}`）でこれを
+> 無効化しています。**実運用では worktree 分離を使うのが基本形**です。
+
 ### 4-2. worker を起動
 
 ```bash
