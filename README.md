@@ -48,6 +48,21 @@ step3-handson/
 **`.git` は含めない**（Ex4 の冒頭で参加者自身に `git init` させる手順になっており、
 これが裏取りで使う `git diff` の基準づくりを兼ねている）。
 
+リポジトリで配布する場合、参加者への案内はこの3行:
+
+```bash
+git clone https://github.com/kudouatushi/step3-handson.git
+cp -R step3-handson/handson ~/handson-try
+cd ~/handson-try   # 以降は README.md（手順書）の「準備」から
+```
+
+- **Claude Code を起動するのはコピーした `~/handson-try` だけ**。clone した
+  リポジトリ側では起動しない（一度実行すると task-101 の答えが焼き込まれるため、
+  原本は触らずコピーを使い捨てる。やり直しもコピーの作り直しで済む）
+- ハンズオン中に参加者が対話する Claude Code は T3 の1つだけ。worker は
+  バックグラウンドセッションとして都度起動・都度片付けされ、ターミナルを占有しない
+- リポジトリは private のため、事前に参加者の招待（または公開への変更、zip 配布）が必要
+
 ## スライドの表示
 
 ```bash
