@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.DS_Store
+
+# ハンズオン実行時に worker が生成する成果物（配布物には含めない）
+handson/reports/
+handson/.claude/
+slides/*.html
+slides/*.pdf
